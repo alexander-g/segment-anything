@@ -170,6 +170,10 @@ class Block(nn.Module):
         if self.window_size > 0:
             H, W = x.shape[1], x.shape[2]
             x, pad_hw = window_partition(x, self.window_size)
+        else:
+            # NOTE: for torchscript
+            pad_hw = (0,0)
+            H, W = (0,0)
 
         x = self.attn(x)
         # Reverse window partition
